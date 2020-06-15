@@ -1,26 +1,70 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Contact from './components/Contact'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+class App extends React.Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      contact:[
+        
+      ],
+
+      name: 'Name',
+      email: 'Email',
+      phone: 'Phone Number',
+      address: 'Address',
+      city: 'City',
+      state: 'State',
+      zip: 'Zip Code'
+    }
+  }
+  handleChange = (e) => {
+    this.setState({[e.target.name]: e.target.value.toString()}); 
+  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const newName = {name: this.state.name, email: this.state.email, phone: this.state.phone,
+                    address: this.state.address, city: this.state.city, state: this.state.state,
+                    zip: this.state.zip}
+    console.log(newName);
+    let newContact = [...this.state.contact, newName];
+    this.setState({contact: newContact}, () => {
+      console.log(this.state.contact)
+    })
+  }
+  render(){
+      return (
+        <div className="App">
+          <header className="App-header">
+            <h1>Contact list</h1>
+          </header>
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <input type="text" name='name' value={this.state.name} onChange={this.handleChange}></input>
+              <input type="email" name="email" value={this.state.email} onChange={this.handleChange}></input>
+              <input type="text" name="phone" value={this.state.phone} onChange={this.handleChange}></input>
+              <input type="text" name="address" value={this.state.address} onChange={this.handleChange}></input>
+              <input type="text" name="city" value={this.state.city} onChange={this.handleChange}></input>
+              <input type="text" name="state" value={this.state.state} onChange={this.handleChange}></input>
+              <input type="text" name="zip" value={this.state.zip} onChange={this.handleChange}></input>
+              <button type="submit">Add Contact</button>
+            </form>
+          </div>
+          <div>
+            <div>
+              {this.state.contact.map((contacts, index) => {
+                return <Contact name={contacts.name} email={contacts.email} 
+                phone={contacts.phone} address={contacts.address} 
+                city={contacts.city} state={contacts.state}
+                zip={contacts.zip} key={index}/>
+              })}
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
 
 export default App;
