@@ -8,16 +8,34 @@ class App extends React.Component {
 
     this.state = {
       contact:[
-        
+        {
+          name: 'Robert Paulson',
+          email: 'Bob@fC.com',
+          phone: '332-454-2879',
+          address: '420 Paper',
+          city: 'St. Wilmington',
+          state: 'DE',
+          zip: '19886'
+        },
+        {
+          name: 'Robert Paulson',
+          email: 'Bob@fC.com',
+          phone: '332-454-2879',
+          address: '420 Paper',
+          city: 'St. Wilmington',
+          state: 'DE',
+          zip: '19886'
+        }
       ],
-
+      
       name: 'Name',
       email: 'Email',
       phone: 'Phone Number',
       address: 'Address',
       city: 'City',
       state: 'State',
-      zip: 'Zip Code'
+      zip: 'Zip Code',
+      removed: []
     }
   }
   handleChange = (e) => {
@@ -32,6 +50,15 @@ class App extends React.Component {
     let newContact = [...this.state.contact, newName];
     this.setState({contact: newContact}, () => {
       console.log(this.state.contact)
+    })
+  }
+  remove = (indexToRemove) => {
+    console.log("Hello")
+    const removed = this.state.contact.filter((contact, index) => {
+      return index != indexToRemove;
+    })
+    this.setState({contact: removed}, () => {
+      console.log(removed);
     })
   }
   render(){
@@ -58,9 +85,10 @@ class App extends React.Component {
                 return <Contact name={contacts.name} email={contacts.email} 
                 phone={contacts.phone} address={contacts.address} 
                 city={contacts.city} state={contacts.state}
-                zip={contacts.zip} key={index}/>
+                zip={contacts.zip} key={index} remove={() => this.remove(index)}/>
               })}
             </div>
+            
           </div>
         </div>
       );
